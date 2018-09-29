@@ -1,10 +1,8 @@
 #! /bin/sh
 . settings.conf
-
-github_curl (){
-  cat $ACCESS_TOKEN | xargs -I {} curl -H "Authorization: token {}" -H 'Content-Type:application/json' $@
-}
-
+. ./lib/github_curl.sh
+#
+#
 # create repository
 github_curl -X POST $GITHUB_API_URL/user/repos -d '{"name":"'$PROJECT_NAME'","private":"true"}'
 
@@ -19,6 +17,3 @@ git remote add origin git@$PROJECT_NAME:$USER/$PROJECT_NAME.git
 
 # git push
 git push origin --all
-
-# delete repository
-#github_curl -X DELETE $GITHUB_API_URL/repos/$USER/$PROJECT_NAME
