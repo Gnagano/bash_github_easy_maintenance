@@ -8,9 +8,6 @@ github_curl (){
 # create repository
 github_curl -X POST $GITHUB_API_URL/user/repos -d '{"name":"'$PROJECT_NAME'","private":"true"}'
 
-# delete repository
-#github_curl -X DELETE $GITHUB_API_URL/repos/$USER/$PROJECT_NAME
-
 # generate ssh key
 github_keygen -C $KEY_COMMENT $PROJECT_NAME
 
@@ -22,3 +19,6 @@ git remote add origin git@$PROJECT_NAME:$USER/$PROJECT_NAME.git
 
 # git push
 git push origin --all
+
+# delete repository
+#github_curl -X DELETE $GITHUB_API_URL/repos/$USER/$PROJECT_NAME
