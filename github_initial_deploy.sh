@@ -9,7 +9,7 @@ github_curl (){
 github_curl -X POST $GITHUB_API_URL/user/repos -d '{"name":"'$PROJECT_NAME'","private":"true"}'
 
 # generate ssh key
-github_keygen -C $KEY_COMMENT $PROJECT_NAME
+sh ./github_keygen.sh -C $KEY_COMMENT $PROJECT_NAME
 
 # deploy ssh key
 cat $ACCESS_TOKEN | xargs -I {} curl -H "Authorization: token {}" -H 'Content-Type:application/json' -X POST $GITHUB_API_URL/repos/$USER/$PROJECT_NAME/keys -d '{ "title" : "'$KEY_TITLE'","key" : "'"$(cat $HOME/.ssh/github_keys/$PROJECT_NAME.pub)"'" }'
