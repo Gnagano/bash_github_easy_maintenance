@@ -8,5 +8,5 @@ github_curl (){
   cat $ACCESS_TOKEN | xargs -I {} curl -H "Authorization: token {}" -H 'Content-Type:application/json' $@
 }
 
-github_curl -X POST $GITHUB_API_URL/user/repos -d '{"name":"'$PROJECT_NAME'"}'
-github_curl -X DELETE $GITHUB_API_URL/repos/$USER/$PROJECT_NAME
+github_curl -X POST $GITHUB_API_URL/user/repos -d '{"name":"'$PROJECT_NAME'","private":"true"}'
+#github_curl -X DELETE $GITHUB_API_URL/repos/$USER/$PROJECT_NAME
