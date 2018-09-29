@@ -4,7 +4,6 @@ ACCESS_TOKEN="$HOME/.github/github_token"
 PROJECT_NAME="test092901"
 GITHUB_API_URL="https://api.github.com"
 KEY_COMMENT="gen.nagano.cc20120701@gmail.com"
-KEY_ID=1
 KEY_TITLE="gano@iMac"
 
 github_curl (){
