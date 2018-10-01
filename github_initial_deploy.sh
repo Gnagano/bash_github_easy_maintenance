@@ -1,8 +1,14 @@
 #! /bin/sh
 . settings.conf
 . ./lib/github_curl.sh
-#
-#
+
+if [ -z $1 ]; then
+  echo  "\nUsage: github_inital_deploy [ project_name ]\n" 1>&2
+  exit 1
+fi
+
+PROJECT_NAME=$1
+
 # create repository
 github_curl -X POST $GITHUB_API_URL/user/repos -d '{"name":"'$PROJECT_NAME'","private":"true"}'
 
