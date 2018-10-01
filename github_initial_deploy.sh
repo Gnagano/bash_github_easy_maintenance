@@ -1,6 +1,14 @@
 #! /bin/sh
-. settings.conf
-. ./lib/github_curl.sh
+
+#for calling from symbolic link
+if [ -L $0 ]; then
+  COMMAND_DIR=$(dirname `readlink $0`)
+else
+  COMMAND_DIR="."
+fi
+. $COMMAND_DIR/settings.conf
+. $COMMAND_DIR/lib/github_curl.sh
+
 
 if [ -z $1 ]; then
   echo  "\nUsage: github_inital_deploy [ project_name ]\n" 1>&2
@@ -13,7 +21,7 @@ PROJECT_NAME=$1
 github_curl -X POST $GITHUB_API_URL/user/repos -d '{"name":"'$PROJECT_NAME'","private":"true"}'
 
 # generate ssh key
-sh ./github_keygen.sh -C $KEY_COMMENT $PROJECT_NAME
+sh $COMMAND_DIR/github_keygen.sh -C $KEY_COMMENT $PROJECT_NAME
 
 # deploy ssh key
 cat $ACCESS_TOKEN | xargs -I {} curl -H "Authorization: token {}" -H 'Content-Type:application/json' -X POST $GITHUB_API_URL/repos/$USER/$PROJECT_NAME/keys -d '{ "title" : "'$KEY_TITLE'","key" : "'"$(cat $HOME/.ssh/github_keys/$PROJECT_NAME.pub)"'" }'
