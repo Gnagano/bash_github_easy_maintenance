@@ -31,11 +31,6 @@ fi
 # generate ssh key
 sh $COMMAND_DIR/github_keygen.sh -C $KEY_COMMENT $PROJECT_NAME
 
-# Exit if key has already existed
-#if [ $? != 0 ]; then
-#  exit 1
-#fi
-
 # deploy ssh key
 cat $ACCESS_TOKEN | xargs -I {} curl -H "Authorization: token {}" -H 'Content-Type:application/json' -X POST $GITHUB_API_URL/repos/$USER/$PROJECT_NAME/keys -d '{ "title" : "'$KEY_TITLE'","key" : "'"$(cat $HOME/.ssh/github_keys/$PROJECT_NAME.pub)"'" }'
 
@@ -44,4 +39,6 @@ git clone git@$PROJECT_NAME:$USER/$PROJECT_NAME.git
 
 # 4. git fetch origin
 cd $PROJECT_NAME
-git fetch origin
+git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+git fetch --all
+git pull --all
