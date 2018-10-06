@@ -1,6 +1,12 @@
 #! /bin/sh
 
-. ./lib/github_curl.sh
+#for calling from symbolic link
+if [ -L $0 ]; then
+  COMMAND_DIR=$(dirname `readlink $0`)
+else
+  COMMAND_DIR="."
+fi
+. $COMMAND_DIR/lib/github_curl.sh
 GITHUB_API_URL="https://api.github.com"
 
 while getopts u: OPT
