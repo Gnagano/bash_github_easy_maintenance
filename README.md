@@ -27,31 +27,78 @@ Those scripts are
   * Create the new repository on Github
   * Git push all branch for currency direcoty (current directory should be git managed.).
 
+## Setup
+
+1. Get the api access token for Github from [this page](https://github.com/settings/tokens) and put somewhere on your computer.
+
+2. copy setting.conf.default as setting.conf
+
+  Change the settings.conf to your information as below.
+
+  ```
+  #! /bin/sh
+  USER="your_github_user_name"              # -> your github account name
+  ACCESS_TOKEN="$HOME/.github/github_token" # -> the place you put the token file
+  GITHUB_API_URL="https://api.github.com"   # -> github api url
+  KEY_COMMENT="your_comment"                # -> comment for execute 'keygen' command.
+  KEY_TITLE="your_key_title"                # -> your key title on Github key page
+  ```
+
 ## Usage
 
+1. `github_del_repo.sh project_name`
 
+  When you want to delete repository whose name is `test`, like below
 
+  ```
+  $ ./github_del_repo.sh test
+  ```
 
+2. `github_keygen.sh [ -C comment ] project_name`
 
+  When you want to generate rsa keys for repository whose name is `test`, like below
 
+  ```
+  $ ./github_keygen.sh test
+  ```
 
+  After executing this, the rsa keys are generated as the same name of project at `$HOME/.ssh/github_keys/`.
+  In this example, the keys' name are `test` (private key) and 'test.pub' (public key).
+  You need to answer on interactive question when the shell execute keygen command.
 
-## Requirements
+  Furthermore, the config lines are added on `$HOME/.ssh/config`
 
-After running the playbook, reload bash_profile like below.
+  ```
+  Host test
+    Port 22
+    HostName github.com
+    IdentityFile ~/.ssh/github_keys/test
+    TCPKeepAlive yes
+    IdentitiesOnly yes
+  ```
 
-```
-$ exec $SHELL -l
-```
+  As you know, the host name of `test` and IdentityFile name are just example, the value should be the same as repository name.
+  That is why, you can access the repository by `git@<repository_name>:<your_github_user_name>/<repository_name>.git`
 
-## Usage
+3. `github_initial_clone.sh project_name`
 
-### Install several envs (rbenv, pyenv, phpenv etc..)
+  When you want to clone the private repository whose name is `test`, like below
 
-In default, the roles install only pyenv.
-Change the variable whose name is "anyenv_install_envs" in defaults/main.yml if you want to do other envs.
+  ```
+  $ ./github_initial_clone.sh test
+  ```
 
-### Change anyenv directory
+  You need to answer on interactive question when the shell execute keygen command.
+  You do not need to deploy the key by yourself because this shell automatically do that.
 
-In default, anyenv folder is /opt/anyenv.
-If you define {{ user }}, the install directory will be changed to /home/{{ user }}/.anyenv
+4. `github_initial_deploy.sh project_name`
+
+  When you want to create the new private repository on Github whose name is `test`, like below
+
+  ```
+  $ ./github_initial_deploy.sh test
+  ```
+
+  This command should be executed on git managed repository because push the codes to new repository on Github.
+  You need to answer on interactive question when the shell execute keygen command.
+  You do not need to access Github page on browser to make new repository.
