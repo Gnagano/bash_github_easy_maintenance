@@ -8,23 +8,23 @@ Those scripts are
 
 1. `github_del_repo.sh project_name`
 
-  * Delete github repository on github api.
+  - Delete github repository on github api.
 
 2. `github_keygen.sh [ -C comment ] project_name`
 
-  * Genereate private and public key for localhost.
+  - Genereate private and public key for localhost.
 
 3. `github_initial_clone.sh project_name`
 
-  * Generate access private and public keys.
-  * Deploy these keys on Github
-  * Clone the private repository by ssh access.
+  - Generate access private and public keys.
+  - Deploy these keys on Github
+  - Clone the private repository by ssh access.
 
 4. `github_initial_deploy.sh project_name`
 
-  * Generate access private and public keys.
-  * Create the new repository on Github
-  * Git push all branch for currency direcoty (current directory should be git managed.).
+  - Generate access private and public keys.
+  - Create the new repository on Github
+  - Git push all branch for currency direcoty (current directory should be git managed.).
 
 ## Setup
 
