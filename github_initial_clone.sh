@@ -32,7 +32,7 @@ fi
 sh $COMMAND_DIR/github_keygen.sh -C $KEY_COMMENT $PROJECT_NAME
 
 # deploy ssh key
-cat $ACCESS_TOKEN | xargs -I {} curl -H "Authorization: token {}" -H 'Content-Type:application/json' -X POST $GITHUB_API_URL/repos/$USER/$PROJECT_NAME/keys -d '{ "title" : "'$KEY_TITLE'","key" : "'"$(cat $HOME/.ssh/github_keys/$PROJECT_NAME.pub)"'" }'
+sudo -s cat $ACCESS_TOKEN | xargs -I {} curl -H "Authorization: token {}" -H 'Content-Type:application/json' -X POST $GITHUB_API_URL/repos/$USER/$PROJECT_NAME/keys -d '{ "title" : "'$KEY_TITLE'","key" : "'"$(cat $HOME/.ssh/github_keys/$PROJECT_NAME.pub)"'" }'
 
 # 3. git remote origin add
 git clone git@$PROJECT_NAME:$USER/$PROJECT_NAME.git
